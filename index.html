@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Afogato - Jogo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🐾 Afogato 🐾</h1>
+    <p>Salve o Alfredo antes que ele seja AFOGATO!</p>
+
+    <div id="menu">
+      <button onclick="jogo.verRegras()">Ver Regras</button>
+      <button onclick="jogo.iniciarPartida()">Começar Partida</button>
+      <button onclick="jogo.verHistorico()">Ver Partidas</button>
+      <button onclick="jogo.verRanking()">Ver Ranking</button>
+    </div>
+
+    <div id="conteudo" class="tela"></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
