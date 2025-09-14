@@ -108,6 +108,8 @@ export class Partida {
     this.jogo.container.innerHTML = html;
 
     window.partida = this;
+    this.atualizarImagem();
+
   }
 
   tentarLetra() {
@@ -158,6 +160,26 @@ export class Partida {
     }
   }
 }
+  atualizarImagem() {
+    const img = document.getElementById("gatinho");
+    if (!img) return;
+
+    if (this.status === "vitória") {
+      img.src = "assets/vitoria.png";
+    } else if (this.status === "derrota") {
+      img.src = "assets/derrota.png";
+    } else {
+      const metade = Math.floor(this.definirTentativas() / 2);
+
+      if (this.tentativas === this.definirTentativas()) {
+        img.src = "assets/alfredo.png"; 
+      } else if (this.tentativas <= metade) {
+        img.src = "assets/medio.png"; 
+      } else {
+        img.src = "assets/alfredo.png";
+      }
+    }
+  }
 
   verificarFim() {
     if (this.letrasVerdes.join("") === this.termo.palavra) {
@@ -171,12 +193,14 @@ export class Partida {
 
   vencer() {
     this.status = "vitória";
+    this.atualizarImagem();
     this.fim = new Date();
     this.mostrarMensagemFinal("🎉 Parabéns! Você salvou o Alfredo!");
   }
 
   perder() {
     this.status = "derrota";
+    this.atualizarImagem();
     this.fim = new Date();
     this.mostrarMensagemFinal(`💀 Você perdeu! A palavra era: ${this.termo.palavra}`);
   }

@@ -5,6 +5,8 @@ export class Jogo {
   constructor() {
     this.partidas = [];
     this.container = document.getElementById("conteudo");
+    this.img = document.getElementById("gatinho");
+
   }
 
   limparTela() {
@@ -25,6 +27,9 @@ export class Jogo {
         <li>🎯 Pode tentar adivinhar a palavra inteira — mas se errar, perde!</li>
       </ul>
     `;
+    
+    this.img.src = "assets/alfredo.png";
+
   }
 
   iniciarPartida() {
@@ -49,6 +54,8 @@ export class Jogo {
       div.innerHTML = `<strong>Partida ${i + 1}:</strong> ${partida.toString()}`;
       this.container.appendChild(div);
     });
+    this.img.src = "assets/alfredo.png";
+
   }
 
   verRanking() {
@@ -70,5 +77,7 @@ export class Jogo {
       div.innerHTML = `<strong>${i + 1}º lugar:</strong> ${partida.toString()}`;
       this.container.appendChild(div);
     });
+    this.img.src = "assets/alfredo.png";
+
   }
 }
