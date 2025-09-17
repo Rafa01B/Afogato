@@ -1,4 +1,3 @@
-// js/partida.js
 import { ComputacaoBiblioteca } from "./categorias/computacao.js";
 import { FrutaBiblioteca } from "./categorias/frutas.js";
 import { PaisBiblioteca } from "./categorias/paises.js";
@@ -8,12 +7,9 @@ import { Termo } from "./termo.js";
 export class Partida {
   constructor(jogo) {
     this.jogo = jogo;
-
     this.letrasVerdes = [];
-    this.letrasAmarelas = [];
     this.letrasErradas = [];
-
-    this.status = "em andamento"; // vitória ou derrota
+    this.status = "em andamento"; 
     this.inicio = new Date();
     this.fim = null;
   }
@@ -41,25 +37,16 @@ export class Partida {
 
   setupCategoria(categoria) {
     switch (categoria) {
-      case "computacao":
-        this.biblioteca = new ComputacaoBiblioteca();
-        break;
-      case "frutas":
-        this.biblioteca = new FrutaBiblioteca();
-        break;
-      case "paises":
-        this.biblioteca = new PaisBiblioteca();
-        break;
-      case "animais":
-        this.biblioteca = new AnimalBiblioteca();
-        break;
+      case "computacao": this.biblioteca = new ComputacaoBiblioteca(); break;
+      case "frutas": this.biblioteca = new FrutaBiblioteca(); break;
+      case "paises": this.biblioteca = new PaisBiblioteca(); break;
+      case "animais": this.biblioteca = new AnimalBiblioteca(); break;
     }
 
     this.biblioteca.inicializar();
     this.termo = new Termo(this.biblioteca.sortearPalavra());
-    this.letrasVerdes = Array(this.termo.palavra.length).fill("");
-    this.letrasAmarelas = Array(this.termo.palavra.length).fill("");
 
+    this.letrasVerdes = Array(this.termo.palavra.length).fill("");
     this.tentativas = this.definirTentativas();
     this.dicas = this.definirDicas();
 
@@ -68,26 +55,33 @@ export class Partida {
 
   definirTentativas() {
     const tam = this.termo.palavra.length;
-    if (tam <= 5) return 7;
-    if (tam <= 7) return 10;
-    return 15;
+    if (tam <= 5){
+      return 7;
+    } 
+    if (tam <= 7){
+      return 10;
+    } 
+    else{
+      return 15;
+    }
   }
 
   definirDicas() {
     const tam = this.termo.palavra.length;
-    if (tam <= 5) return 1;
-    if (tam <= 7) return 2;
-    return 3;
+
+    if (tam <= 5){
+       return 1;
+    }
+    else if (tam <= 7){
+      return 2;
+    }else{
+      return 3;
+    }
+   
   }
 
   mostrarStatus() {
-    const letras = this.letrasVerdes
-      .map((letra, i) => {
-        if (letra) return `<span class="letra-verde">${letra}</span>`;
-        if (this.letrasAmarelas[i]) return `<span class="letra-amarela">${this.letrasAmarelas[i]}</span>`;
-        return "_";
-      })
-      .join(" ");
+    const letras = this.letrasVerdes.map(l => l ? `<span class="letra-verde">${l}</span>` : "_").join(" ");
 
     const html = `
       <h3>Palavra: ${letras}</h3>
@@ -106,26 +100,33 @@ export class Partida {
     `;
 
     this.jogo.container.innerHTML = html;
-
     window.partida = this;
     this.atualizarImagem();
-
   }
 
   tentarLetra() {
     const letra = prompt("Digite uma letra:").toUpperCase();
-    const pos = parseInt(prompt("Digite a posição (1 a " + this.termo.palavra.length + "):")) - 1;
-
-    if (isNaN(pos) || pos < 0 || pos >= this.termo.palavra.length || !letra.match(/[A-Z]/)) {
-      alert("Letra ou posição inválida.");
+    if (!letra.match(/^[A-Z]$/)) {
+      alert("Letra inválida!");
       return;
     }
 
-    const status = this.termo.validarLetra(letra, pos);
+    if (this.letrasErradas.includes(letra)) {
+      alert("Você já tentou essa letra!");
+      return;
+    }
 
-    if (status === 2) this.letrasVerdes[pos] = letra;
-    else if (status === 1) this.letrasAmarelas[pos] = letra;
-    else this.letrasErradas.push(letra);
+    let acertou = false;
+    for (let i = 0; i < this.termo.palavra.length; i++) {
+      if (this.termo.palavra[i] === letra) {
+        this.letrasVerdes[i] = letra;
+        acertou = true;
+      }
+    }
+
+    if (!acertou) {
+      this.letrasErradas.push(letra);
+    }
 
     this.tentativas--;
     this.verificarFim();
@@ -133,33 +134,31 @@ export class Partida {
 
   chutarPalavra() {
     const chute = prompt("Qual seu chute para a palavra?").toUpperCase();
-
-    if (chute === this.termo.palavra) {
+    if (chute === this.termo.palavra){
       this.vencer();
-    } else {
+    }else{
       this.perder();
-    }
+    } 
   }
 
- usarDica() {
-  if (this.dicas <= 0) {
-    alert("Você não tem mais dicas.");
-    return;
-  }
-
-  const palavra = this.termo.palavra;
-
-  for (let i = 0; i < palavra.length; i++) {
-    if (!this.letrasVerdes[i]) {
-      const letra = palavra[i];
-      this.letrasVerdes[i] = letra;
-      this.dicas--;
-      this.tentativas--;
-      this.verificarFim();
+  usarDica() {
+    if (this.dicas <= 0) {
+      alert("Sem dicas disponíveis!");
       return;
     }
+
+    const palavra = this.termo.palavra;
+    for (let i = 0; i < palavra.length; i++) {
+      if (!this.letrasVerdes[i]) {
+        this.letrasVerdes[i] = palavra[i];
+        this.dicas--;
+        this.tentativas--;
+        this.verificarFim();
+        return;
+      }
+    }
   }
-}
+
   atualizarImagem() {
     const img = document.getElementById("gatinho");
     if (!img) return;
@@ -170,11 +169,8 @@ export class Partida {
       img.src = "assets/derrota.png";
     } else {
       const metade = Math.floor(this.definirTentativas() / 2);
-
-      if (this.tentativas === this.definirTentativas()) {
-        img.src = "assets/alfredo.png"; 
-      } else if (this.tentativas <= metade) {
-        img.src = "assets/medio.png"; 
+      if (this.tentativas <= metade) {
+        img.src = "assets/medio.png";
       } else {
         img.src = "assets/alfredo.png";
       }
@@ -182,27 +178,27 @@ export class Partida {
   }
 
   verificarFim() {
-    if (this.letrasVerdes.join("") === this.termo.palavra) {
+    if (this.letrasVerdes.join("") === this.termo.palavra){
       this.vencer();
-    } else if (this.tentativas <= 0) {
+    } else if (this.tentativas <= 0){
       this.perder();
-    } else {
+    } else{
       this.mostrarStatus();
-    }
+    } 
   }
 
-  vencer() {
-    this.status = "vitória";
-    this.atualizarImagem();
-    this.fim = new Date();
+  vencer() { 
+    this.status = "vitória"; 
+    this.fim = new Date(); 
+    this.atualizarImagem(); 
     this.mostrarMensagemFinal("🎉 Parabéns! Você salvou o Alfredo!");
   }
 
-  perder() {
-    this.status = "derrota";
-    this.atualizarImagem();
-    this.fim = new Date();
-    this.mostrarMensagemFinal(`💀 Você perdeu! A palavra era: ${this.termo.palavra}`);
+  perder() { 
+    this.status = "derrota"; 
+    this.fim = new Date(); 
+    this.atualizarImagem(); 
+    this.mostrarMensagemFinal(`💀 Você perdeu! A palavra era: ${this.termo.palavra}`); 
   }
 
   mostrarMensagemFinal(msg) {
@@ -218,14 +214,11 @@ export class Partida {
 
   tempoTotal() {
     const duracao = ((this.fim || new Date()) - this.inicio) / 1000;
-    return {
-      seg: Math.floor(duracao % 60),
-      min: Math.floor(duracao / 60),
-    };
+    return { seg: Math.floor(duracao % 60), min: Math.floor(duracao / 60) };
   }
 
-  get tempoTotalSegundos() {
-    return ((this.fim || new Date()) - this.inicio) / 1000;
+  get tempoTotalSegundos() { 
+    return ((this.fim || new Date()) - this.inicio) / 1000; 
   }
 
   toString() {

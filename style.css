@@ -13,9 +13,8 @@ body {
   text-align: center;
 }
 
-h1 {
+h1, h2, h3 {
   color: #d6336c;
-  font-size: 2.5em;
 }
 
 button {
@@ -27,6 +26,7 @@ button {
   background-color: #ff69b4;
   color: white;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 button:hover {
@@ -43,18 +43,17 @@ button:hover {
 }
 
 .letra-verde {
-  color: #4caf50;
+  color: #28a745; 
   font-weight: bold;
-}
-
-.letra-amarela {
-  color: #ff9800;
-  font-weight: bold;
+  font-size: 20px;
+  margin: 0 3px;
 }
 
 .letra-vermelha {
   color: #f44336;
   font-weight: bold;
+  font-size: 20px;
+  margin: 0 3px;
 }
 
 .erros {
@@ -63,7 +62,7 @@ button:hover {
 }
 
 #gatinho {
-  width: 150px; 
+  width: 150px;
   height: auto;
+  margin-top: 20px;
 }
-

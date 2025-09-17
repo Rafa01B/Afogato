@@ -1,4 +1,3 @@
-// js/jogo.js
 import { Partida } from './partida.js';
 
 export class Jogo {
