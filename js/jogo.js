@@ -26,7 +26,7 @@ export class Jogo {
         <li>🎯 Pode tentar adivinhar a palavra inteira — mas se errar, perde!</li>
       </ul>
     `;
-    
+
     this.img.src = "assets/alfredo.png";
 
   }
@@ -34,8 +34,8 @@ export class Jogo {
   iniciarPartida() {
     this.limparTela();
     const partida = new Partida(this);
-    partida.iniciar(); 
-    this.partidas.push(partida); 
+    partida.iniciar();
+    this.partidas.push(partida);
   }
 
   verHistorico() {
@@ -60,7 +60,7 @@ export class Jogo {
   verRanking() {
     this.limparTela();
 
-    const vitorias = this.partidas.filter(p => p.status === "vitória");
+    const vitorias = this.partidas.filter(p => p.status === "VITÓRIA");
 
     if (vitorias.length === 0) {
       this.container.innerHTML = "<p>🏆 Ainda não há partidas com vitória!</p>";
