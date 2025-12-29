@@ -9,7 +9,7 @@ export class Partida {
     this.jogo = jogo;
     this.letrasVerdes = [];
     this.letrasErradas = [];
-    this.status = "em andamento"; 
+    this.status = "em andamento";
     this.inicio = new Date();
     this.fim = null;
   }
@@ -55,13 +55,13 @@ export class Partida {
 
   definirTentativas() {
     const tam = this.termo.palavra.length;
-    if (tam <= 5){
+    if (tam <= 5) {
       return 7;
-    } 
-    if (tam <= 7){
+    }
+    if (tam <= 7) {
       return 10;
-    } 
-    else{
+    }
+    else {
       return 15;
     }
   }
@@ -69,15 +69,15 @@ export class Partida {
   definirDicas() {
     const tam = this.termo.palavra.length;
 
-    if (tam <= 5){
-       return 1;
+    if (tam <= 5) {
+      return 1;
     }
-    else if (tam <= 7){
+    else if (tam <= 7) {
       return 2;
-    }else{
+    } else {
       return 3;
     }
-   
+
   }
 
   mostrarStatus() {
@@ -134,11 +134,11 @@ export class Partida {
 
   chutarPalavra() {
     const chute = prompt("Qual seu chute para a palavra?").toUpperCase();
-    if (chute === this.termo.palavra){
+    if (chute === this.termo.palavra) {
       this.vencer();
-    }else{
+    } else {
       this.perder();
-    } 
+    }
   }
 
   usarDica() {
@@ -163,9 +163,9 @@ export class Partida {
     const img = document.getElementById("gatinho");
     if (!img) return;
 
-    if (this.status === "vitória") {
+    if (this.status === "VITÓRIA") {
       img.src = "assets/vitoria.png";
-    } else if (this.status === "derrota") {
+    } else if (this.status === "DERROTA") {
       img.src = "assets/derrota.png";
     } else {
       const metade = Math.floor(this.definirTentativas() / 2);
@@ -178,27 +178,27 @@ export class Partida {
   }
 
   verificarFim() {
-    if (this.letrasVerdes.join("") === this.termo.palavra){
+    if (this.letrasVerdes.join("") === this.termo.palavra) {
       this.vencer();
-    } else if (this.tentativas <= 0){
+    } else if (this.tentativas <= 0) {
       this.perder();
-    } else{
+    } else {
       this.mostrarStatus();
-    } 
+    }
   }
 
-  vencer() { 
-    this.status = "vitória"; 
-    this.fim = new Date(); 
-    this.atualizarImagem(); 
+  vencer() {
+    this.status = "VITÓRIA";
+    this.fim = new Date();
+    this.atualizarImagem();
     this.mostrarMensagemFinal("🎉 Parabéns! Você salvou o Alfredo!");
   }
 
-  perder() { 
-    this.status = "derrota"; 
-    this.fim = new Date(); 
-    this.atualizarImagem(); 
-    this.mostrarMensagemFinal(`💀 Você perdeu! A palavra era: ${this.termo.palavra}`); 
+  perder() {
+    this.status = "DERROTA";
+    this.fim = new Date();
+    this.atualizarImagem();
+    this.mostrarMensagemFinal(`💀 Você perdeu! A palavra era: ${this.termo.palavra}`);
   }
 
   mostrarMensagemFinal(msg) {
@@ -217,8 +217,8 @@ export class Partida {
     return { seg: Math.floor(duracao % 60), min: Math.floor(duracao / 60) };
   }
 
-  get tempoTotalSegundos() { 
-    return ((this.fim || new Date()) - this.inicio) / 1000; 
+  get tempoTotalSegundos() {
+    return ((this.fim || new Date()) - this.inicio) / 1000;
   }
 
   toString() {
