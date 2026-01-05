@@ -111,7 +111,7 @@ export class Partida {
       return;
     }
 
-    if (this.letrasErradas.includes(letra)) {
+    if (this.letrasErradas.includes(letra) || this.letrasVerdes.includes(letra)) {
       alert("Você já tentou essa letra!");
       return;
     }
@@ -190,6 +190,7 @@ export class Partida {
   vencer() {
     this.status = "VITÓRIA";
     this.fim = new Date();
+    this.jogo.salvarPartida(this);
     this.atualizarImagem();
     this.mostrarMensagemFinal("🎉 Parabéns! Você salvou o Alfredo!");
   }
@@ -197,6 +198,7 @@ export class Partida {
   perder() {
     this.status = "DERROTA";
     this.fim = new Date();
+    this.jogo.salvarPartida(this);
     this.atualizarImagem();
     this.mostrarMensagemFinal(`💀 Você perdeu! A palavra era: ${this.termo.palavra}`);
   }

@@ -36,6 +36,9 @@ export class Jogo {
     this.limparTela();
     const partida = new Partida(this);
     partida.iniciar();
+  }
+
+  salvarPartida(partida) {
     this.partidas.push(partida);
   }
 
