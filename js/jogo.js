@@ -5,6 +5,7 @@ export class Jogo {
     this.partidas = [];
     this.container = document.getElementById("conteudo");
     this.img = document.getElementById("gatinho");
+    window.jogo = this;
 
   }
 
