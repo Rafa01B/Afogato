@@ -21,9 +21,9 @@ export class Jogo {
       <ul style="text-align: left;">
         <li>🎯 Escolha uma categoria: Computação, Fruta, País ou Animal.</li>
         <li>🎯 O jogo vai sortear uma palavra dessa categoria.</li>
-        <li>🎯 Você pode tentar adivinhar uma letra e sua posição.</li>
+        <li>🎯 Em cada rodada, você pode tentar uma letra.</li>
         <li>🎯 Se acertar, a letra aparece; se errar, perde uma tentativa.</li>
-        <li>🎯 Pode tentar adivinhar a palavra inteira — mas se errar, perde!</li>
+        <li>🎯 Pode tentar adivinhar a palavra inteira - mas se errar, perde!</li>
       </ul>
     `;
 
